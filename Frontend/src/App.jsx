@@ -28,7 +28,7 @@ function ChatInterface() {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col h-screen md:h-auto overflow-hidden">
+        <div className="flex-1 flex flex-col relative">
           {/* Top Bar */}
           <div className="h-14 flex-shrink-0 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-4 bg-white dark:bg-gray-900">
             <button

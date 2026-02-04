@@ -37,7 +37,7 @@ export default function MessageInput() {
   }
 
   return (
-    <div className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+    <div className="fixed md:relative bottom-0 left-0 right-0 md:left-auto md:right-auto border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 z-10">
       {editingMessage && (
         <div className="px-3 sm:px-4 md:px-6 lg:px-8 py-2 bg-blue-50 dark:bg-blue-900/20 border-b border-blue-200 dark:border-blue-800 flex items-center justify-between">
           <div className="flex items-center gap-2">

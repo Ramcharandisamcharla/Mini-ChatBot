@@ -38,12 +38,12 @@ export default function ChatWindow() {
   }
 
   return (
-    <div className="flex-1 flex flex-col bg-white dark:bg-gray-900 overflow-hidden min-h-0">
+    <div className="flex-1 flex flex-col bg-white dark:bg-gray-900 overflow-hidden md:min-h-0">
       {/* Messages - Responsive container */}
       <div 
         ref={messagesContainerRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700 min-h-0"
+        className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700 pb-32 md:pb-0 md:min-h-0"
       >
         <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-4 md:py-8">
           {messages.length === 0 && !loading && (
