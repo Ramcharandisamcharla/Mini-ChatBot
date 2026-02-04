@@ -11,7 +11,7 @@ function ChatInterface() {
   const { backendStatus } = useChat();
 
   return (
-    <div className="h-screen flex bg-white dark:bg-gray-900">
+    <div className="h-screen flex bg-white dark:bg-gray-900 overflow-hidden fixed inset-0 md:relative md:inset-auto">
         {/* Sidebar Overlay for mobile */}
         {sidebarOpen && (
           <div 
@@ -28,7 +28,7 @@ function ChatInterface() {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col relative">
+        <div className="flex-1 flex flex-col absolute md:relative inset-0 md:inset-auto left-0 md:left-auto top-0 md:top-auto right-0 md:right-auto bottom-0 md:bottom-auto">
           {/* Top Bar */}
           <div className="fixed md:relative top-0 left-0 right-0 md:left-auto md:right-auto h-14 flex-shrink-0 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-4 bg-white dark:bg-gray-900 z-10">
             <button
