@@ -1,9 +1,9 @@
 import { Routes, Route } from "react-router-dom";
 import { ChatProvider, useChat } from "./context/ChatContext";
-import ChatList from "./components/ChatList";
-import ChatWindow from "./components/ChatWindow";
 import { useState } from "react";
 import { useTheme } from "./context/ThemeContext";
+import ChatList from "./components/ChatList";
+import ChatWindow from "./components/ChatWindow";
 
 function ChatInterface() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
