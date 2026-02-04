@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html, body {
+    @apply overflow-hidden;
+    @apply h-full;
+    @apply w-full;
+    position: fixed;
+    overscroll-behavior: none;
+  }
+  
+  #root {
+    @apply h-full;
+    @apply w-full;
+    @apply overflow-hidden;
+  }
+  
+  @media (min-width: 768px) {
+    html, body {
+      position: static;
+      overflow: auto;
+    }
+  }
+}
