@@ -8,8 +8,8 @@ The goal of this project is not feature quantity, but **clean architecture**, **
 
 ## 🚀 Live URLs
 
-**Frontend (Vercel):** `<YOUR_VERCEL_URL>`  
-**Backend API (Render):** `<YOUR_RENDER_API_URL>`
+**Frontend (Vercel):https://mini-chatbot-sand.vercel.app/
+**Backend API (Render):https://chatbot-backend-13rz.onrender.com
 
 > **Local Development:**  
 > Frontend: `http://localhost:5173`  
