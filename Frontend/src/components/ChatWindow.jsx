@@ -38,7 +38,7 @@ export default function ChatWindow() {
   }
 
   return (
-    <div className="flex-1 flex flex-col bg-white dark:bg-gray-900 overflow-hidden md:min-h-0">
+    <div className="flex-1 flex flex-col bg-white dark:bg-gray-900 overflow-hidden md:min-h-0 pt-14 md:pt-0">
       {/* Messages - Responsive container */}
       <div 
         ref={messagesContainerRef}
