@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { ChatProvider, useChat } from "./context/ChatContext";
-import ChatList from "./components/chatList";
+import ChatList from "./components/ChatList";
 import ChatWindow from "./components/ChatWindow";
 import { useState } from "react";
 import { useTheme } from "./context/ThemeContext";
