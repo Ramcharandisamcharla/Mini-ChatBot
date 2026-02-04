@@ -28,9 +28,9 @@ function ChatInterface() {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col h-screen md:h-auto overflow-hidden">
           {/* Top Bar */}
-          <div className="h-14 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-4 bg-white dark:bg-gray-900">
+          <div className="h-14 flex-shrink-0 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-4 bg-white dark:bg-gray-900">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="md:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded"
