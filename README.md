@@ -10,7 +10,7 @@ The goal of this project is not feature quantity, but **clean architecture**, **
 
 **Frontend (Vercel):https://mini-chatbot-sand.vercel.app
 
-**Backend API (Render):https://chatbot-backend-13rz.onrender.com
+**Backend API (Render):https://chatbot-backend-13rz.onrender.com/health
 
 > **Local Development:**  
 > Frontend: `http://localhost:5173`  
