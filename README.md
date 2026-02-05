@@ -12,6 +12,8 @@ The goal of this project is not feature quantity, but **clean architecture**, **
 
 **Backend API (Render):https://chatbot-backend-13rz.onrender.com/health
 
+> **Note:** The backend is hosted on Render’s free tier, which may briefly go to sleep after inactivity; on the first request it may take a few seconds to wake up.
+
 > **Local Development:**  
 > Frontend: `http://localhost:5173`  
 > Backend: `http://localhost:3001`  
