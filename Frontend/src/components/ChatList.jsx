@@ -4,9 +4,9 @@ export default function ChatList({ onClose }) {
   const { chats, currentChat, chatsLoading, startNewChat, selectChat, handleDeleteChat } = useChat();
 
   return (
-    <div className="w-64 h-screen border-r border-gray-200 dark:border-gray-700 flex flex-col bg-white dark:bg-gray-900">
+    <div className="w-64 h-full md:h-screen border-r border-gray-200 dark:border-gray-700 flex flex-col bg-white dark:bg-[#212121] pt-14 md:pt-0">
       {/* Header */}
-      <div className="p-3 border-b border-gray-200 dark:border-gray-700">
+      <div className="p-3 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
         <div className="flex items-center justify-between mb-3">
           <h2 className="font-semibold text-gray-900 dark:text-gray-100">Chats</h2>
           <button

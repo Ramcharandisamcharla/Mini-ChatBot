@@ -15,7 +15,7 @@ function ChatInterface() {
         {/* Sidebar Overlay for mobile */}
         {sidebarOpen && (
           <div 
-            className="fixed inset-0 bg-black/50 z-10 md:hidden"
+            className="fixed inset-0 bg-black/50 z-40 md:hidden"
             onClick={() => setSidebarOpen(false)}
           />
         )}
@@ -23,7 +23,7 @@ function ChatInterface() {
         {/* Sidebar */}
         <div className={`${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:translate-x-0 fixed md:relative z-20 transition-transform duration-300`}>
+        } md:translate-x-0 fixed md:relative z-50 transition-transform duration-300`}>
           <ChatList onClose={() => setSidebarOpen(false)} />
         </div>
 
