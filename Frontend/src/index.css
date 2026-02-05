@@ -8,48 +8,50 @@
   }
   
   html {
-    height: 100%;
     width: 100%;
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height */
+    touch-action: manipulation;
     overflow: hidden;
   }
   
   body {
-    height: 100%;
     width: 100%;
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height */
     margin: 0;
     padding: 0;
-    overflow: hidden;
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    overflow: hidden;
     overscroll-behavior: none;
     -webkit-overflow-scrolling: touch;
   }
   
   #root {
-    height: 100%;
     width: 100%;
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Disable pull-to-refresh */
-  body {
-    overscroll-behavior-y: none;
   }
   
   @media (min-width: 768px) {
+    html,
     body {
+      height: 100vh;
       position: static;
       overflow: auto;
-      height: auto;
     }
     
     #root {
-      display: block;
+      height: 100vh;
+      position: static;
     }
   }
 }

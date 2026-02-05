@@ -35,7 +35,7 @@ export default function Message({ message }) {
             <button
               onClick={() => startEditingMessage(message)}
               disabled={loading}
-              className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               title="Edit message"
             >
               <svg className="w-3 h-3 md:w-4 md:h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

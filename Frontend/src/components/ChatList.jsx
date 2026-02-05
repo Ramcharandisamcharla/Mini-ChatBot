@@ -87,7 +87,7 @@ export default function ChatList({ onClose }) {
                         handleDeleteChat(chat.id);
                       }
                     }}
-                    className="opacity-0 group-hover:opacity-100 p-2 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-opacity"
+                    className="p-2 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                     title="Delete chat"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
