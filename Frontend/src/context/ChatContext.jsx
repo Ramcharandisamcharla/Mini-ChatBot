@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useRef } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   createChat,
@@ -8,6 +8,8 @@ import {
   deleteChat,
   checkHealth,
 } from "../api";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const ChatContext = createContext();
 
@@ -24,6 +26,14 @@ export function ChatProvider({ children }) {
   const [editingMessage, setEditingMessage] = useState(null); // { id, content } for message being edited
   const [failedMessages, setFailedMessages] = useState(new Map()); // Map of messageId -> error info
 
+  async function checkBackend() {
+    try {
+      await fetch(`${API_URL}/health`);
+    } catch {
+      setError("Waking up server, please wait...");
+    }
+  }
+
   // Load chats on app start
   useEffect(() => {
     let isCancelled = false;
@@ -31,6 +41,8 @@ export function ChatProvider({ children }) {
     async function fetchChats() {
       setChatsLoading(true);
       try {
+        // Wake up server if needed
+        await checkBackend();
         // Check backend health first
         await checkHealth();
         if (isCancelled) return;
