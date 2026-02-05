@@ -11,11 +11,11 @@ function ChatInterface() {
   const { backendStatus } = useChat();
 
   return (
-    <div className="h-full w-full flex bg-white dark:bg-[#212121] overflow-hidden">
+    <div className="h-screen flex bg-white dark:bg-gray-900">
         {/* Sidebar Overlay for mobile */}
         {sidebarOpen && (
           <div 
-            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+            className="fixed inset-0 bg-black/50 z-10 md:hidden"
             onClick={() => setSidebarOpen(false)}
           />
         )}
@@ -23,14 +23,14 @@ function ChatInterface() {
         {/* Sidebar */}
         <div className={`${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:translate-x-0 fixed md:relative top-0 left-0 h-screen z-50 transition-transform duration-300`}>
+        } md:translate-x-0 fixed md:relative z-20 transition-transform duration-300`}>
           <ChatList onClose={() => setSidebarOpen(false)} />
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col h-full w-full overflow-hidden">
+        <div className="flex-1 flex flex-col relative">
           {/* Top Bar */}
-          <div className="fixed md:relative top-0 left-0 right-0 md:left-auto md:right-auto h-14 flex-shrink-0 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-4 bg-white dark:bg-[#212121] z-30">
+          <div className="fixed md:relative top-0 left-0 right-0 md:left-auto md:right-auto h-14 flex-shrink-0 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-4 bg-white dark:bg-gray-900 z-10">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="md:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded"

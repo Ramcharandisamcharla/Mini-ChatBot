@@ -4,7 +4,7 @@ import Message from "./Message";
 import MessageInput from "./MessageInput";
 
 export default function ChatWindow() {
-  const { currentChat, messages, loading, error, retryStatus } = useChat();
+  const { currentChat, messages, loading, error } = useChat();
   const bottomRef = useRef(null);
   const messagesContainerRef = useRef(null);
   const shouldAutoScrollRef = useRef(true);
@@ -27,7 +27,7 @@ export default function ChatWindow() {
 
   if (!currentChat) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 bg-white dark:bg-[#212121] p-8">
+      <div className="flex-1 flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 bg-white dark:bg-gray-900 p-8">
         <svg className="w-16 h-16 mb-4 text-gray-300 dark:text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
         </svg>
@@ -38,13 +38,12 @@ export default function ChatWindow() {
   }
 
   return (
-    <div className="flex-1 flex flex-col bg-white dark:bg-[#212121] overflow-hidden md:min-h-0">
+    <div className="flex-1 flex flex-col bg-white dark:bg-gray-900 overflow-hidden md:min-h-0 pt-14 md:pt-0">
       {/* Messages - Responsive container */}
       <div 
         ref={messagesContainerRef}
         onScroll={handleScroll}
-        className="absolute md:relative top-14 md:top-0 left-0 right-0 bottom-0 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 pb-32 md:pb-0 md:flex-1 md:min-h-0 overscroll-none"
-        style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}
+        className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700 pb-32 md:pb-0 md:min-h-0"
       >
         <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-4 md:py-8">
           {messages.length === 0 && !loading && (
@@ -76,29 +75,6 @@ export default function ChatWindow() {
                     <div className="w-2 h-2 bg-gray-400 dark:bg-gray-600 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
                     <div className="w-2 h-2 bg-gray-400 dark:bg-gray-600 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
                     <div className="w-2 h-2 bg-gray-400 dark:bg-gray-600 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {retryStatus && (
-              <div className="flex justify-center">
-                <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg px-4 py-3 max-w-md">
-                  <div className="flex items-center gap-3">
-                    <div className="flex-shrink-0">
-                      <svg className="animate-spin h-5 w-5 text-blue-600 dark:text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-blue-900 dark:text-blue-100">{retryStatus.message}</p>
-                      {retryStatus.attempt > 0 && (
-                        <p className="text-xs text-blue-700 dark:text-blue-300 mt-1">
-                          Please wait, this may take a few seconds...
-                        </p>
-                      )}
-                    </div>
                   </div>
                 </div>
               </div>
