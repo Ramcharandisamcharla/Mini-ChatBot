@@ -37,7 +37,7 @@ export default function MessageInput() {
   }
 
   return (
-    <div className="fixed md:relative bottom-0 left-0 right-0 md:left-auto md:right-auto border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 z-10">
+    <div className="fixed md:relative bottom-0 left-0 right-0 md:left-auto md:right-auto border-t border-gray-200 dark:border-gray-700/50 bg-white dark:bg-[#212121] z-40">
       {editingMessage && (
         <div className="px-3 sm:px-4 md:px-6 lg:px-8 py-2 bg-blue-50 dark:bg-blue-900/20 border-b border-blue-200 dark:border-blue-800 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -66,7 +66,7 @@ export default function MessageInput() {
             onChange={(e) => setText(e.target.value)}
             rows={1}
             placeholder="Send a message..."
-            className="flex-1 border border-gray-300 dark:border-gray-600 rounded-xl px-3 md:px-4 py-2 md:py-3 text-sm md:text-base resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 max-h-32"
+            className="flex-1 border border-gray-300 dark:border-gray-600 rounded-xl px-3 md:px-4 py-2 md:py-3 text-sm md:text-base resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-[#2f2f2f] text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 max-h-32"
             style={{
               minHeight: '44px',
               height: 'auto'
