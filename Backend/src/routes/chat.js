@@ -109,69 +109,18 @@ router.post("/:id/messages", async (req, res) => {
     `SELECT role, content FROM messages WHERE chatId = ? ORDER BY createdAt ASC`
   ).all(id);
 
-  // Set headers for Server-Sent Events (SSE)
-  res.setHeader('Content-Type', 'text/event-stream');
-  res.setHeader('Cache-Control', 'no-cache');
-  res.setHeader('Connection', 'keep-alive');
-
-  // Generate AI response with streaming
+  // Generate AI response
   try {
-    const stream = await generateAIResponse(conversation);
-    let fullContent = '';
+    const aiReply = await generateAIResponse(conversation);
 
-    // Send user message immediately
-    res.write(`data: ${JSON.stringify({ 
-      type: 'user', 
-      message: { 
-        id: userMessageId, 
-        role: 'user', 
-        content: sanitizedContent, 
-        createdAt: userCreatedAt 
-      },
-      updatedTitle 
-    })}\n\n`);
+    const assistantContent =
+      aiReply ||
+      "Sorry, I'm having trouble responding right now. Please try again.";
 
+    // Save assistant message
     const assistantMessageId = uuid();
     const assistantCreatedAt = new Date().toISOString();
 
-    // Process the stream from OpenAI
-    const reader = stream.getReader();
-    const decoder = new TextDecoder('utf-8');
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-
-      const chunk = decoder.decode(value, { stream: true });
-      const lines = chunk.split('\n').filter(line => line.trim() !== '');
-
-      for (const line of lines) {
-        if (line.startsWith('data: ')) {
-          const data = line.slice(6);
-          if (data === '[DONE]') continue;
-
-          try {
-            const parsed = JSON.parse(data);
-            const content = parsed.choices[0]?.delta?.content;
-            if (content) {
-              fullContent += content;
-              // Send chunk to frontend
-              res.write(`data: ${JSON.stringify({ 
-                type: 'chunk', 
-                content,
-                messageId: assistantMessageId 
-              })}\n\n`);
-            }
-          } catch (e) {
-            // Skip invalid JSON
-          }
-        }
-      }
-    }
-
-    const assistantContent = fullContent || "Sorry, I'm having trouble responding right now. Please try again.";
-
-    // Save assistant message (ID already created above)
     db.prepare(
       `INSERT INTO messages (id, chatId, role, content, createdAt)
        VALUES (?, ?, ?, ?, ?)`

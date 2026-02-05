@@ -23,7 +23,6 @@ export async function generateAIResponse(messages) {
           ...messages,
         ],
         temperature: 0.7,
-        stream: true,
       }),
       signal: controller.signal,
     });
@@ -39,8 +38,8 @@ export async function generateAIResponse(messages) {
       throw error;
     }
 
-    // Return the stream directly for SSE streaming
-    return response.body;
+    const data = await response.json();
+    return data.choices[0].message.content;
   } catch (err) {
     console.error("AI error:", err.message);
     
