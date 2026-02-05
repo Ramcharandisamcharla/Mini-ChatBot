@@ -23,7 +23,7 @@ function ChatInterface() {
         {/* Sidebar */}
         <div className={`${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:translate-x-0 fixed md:relative z-50 transition-transform duration-300`}>
+        } md:translate-x-0 fixed md:relative top-0 left-0 h-screen z-50 transition-transform duration-300`}>
           <ChatList onClose={() => setSidebarOpen(false)} />
         </div>
 
