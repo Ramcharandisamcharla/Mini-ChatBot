@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useRef } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   createChat,
@@ -20,7 +20,8 @@ export function ChatProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [chatsLoading, setChatsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [backendStatus, setBackendStatus] = useState('checking'); // 'checking', 'online', 'offline'
+  const [backendStatus, setBackendStatus] = useState('checking'); // 'checking', 'online', 'offline', 'waking'
+  const [retryStatus, setRetryStatus] = useState(null); // { message, attempt, maxAttempts }
   const [editingMessage, setEditingMessage] = useState(null); // { id, content } for message being edited
   const [failedMessages, setFailedMessages] = useState(new Map()); // Map of messageId -> error info
 
@@ -32,12 +33,20 @@ export function ChatProvider({ children }) {
       setChatsLoading(true);
       try {
         // Check backend health first
+        setRetryStatus({ message: 'Connecting to server...', attempt: 0, maxAttempts: 1 });
         await checkHealth();
         if (isCancelled) return;
         setBackendStatus('online');
+        setRetryStatus(null);
 
-        const data = await getChats();
+        const data = await getChats((retryInfo) => {
+          if (!isCancelled) {
+            setBackendStatus('waking');
+            setRetryStatus(retryInfo);
+          }
+        });
         if (isCancelled) return;
+        setRetryStatus(null);
         setChats(data);  
 
         // Restore chat from URL if chatId exists
@@ -62,7 +71,8 @@ export function ChatProvider({ children }) {
       } catch (err) {
         if (isCancelled) return;
         setBackendStatus('offline');
-        setError(err.error || "Failed to connect to backend server");
+        setRetryStatus(null);
+        setError(err.error || "Unable to connect to server. Please check your internet connection.");
       } finally {
         if (!isCancelled) {
           setChatsLoading(false);
@@ -150,20 +160,27 @@ export function ChatProvider({ children }) {
   async function startNewChat() {
     try {
       setError(null);
+      setRetryStatus(null);
       
       // Delete previous chat if it's empty
       if (currentChat) {
         await deleteEmptyChat(currentChat);
       }
       
-      const chat = await createChat();
+      const chat = await createChat((retryInfo) => {
+        setBackendStatus('waking');
+        setRetryStatus(retryInfo);
+      });
+      setRetryStatus(null);
+      setBackendStatus('online');
       setChats((prev) => [chat, ...prev]);
       setCurrentChat(chat);
       setMessages([]);
       setFailedMessages(new Map()); // Clear failed messages
       navigate(`/chat/${chat.id}`);
-    } catch {
-      setError("Failed to create chat");
+    } catch (err) {
+      setRetryStatus(null);
+      setError(err.error || "Failed to create chat. Please try again.");
     }
   }
 
@@ -199,7 +216,12 @@ export function ChatProvider({ children }) {
     setLoading(true);
 
     try {
-      const res = await sendMessage(currentChat.id, content);
+      const res = await sendMessage(currentChat.id, content, (retryInfo) => {
+        setBackendStatus('waking');
+        setRetryStatus(retryInfo);
+      });
+      setRetryStatus(null);
+      setBackendStatus('online');
 
       // If retrying, remove the old failed messages
       if (retryUserMessageId) {
@@ -338,6 +360,7 @@ export function ChatProvider({ children }) {
         chatsLoading,
         error,
         backendStatus,
+        retryStatus,
         editingMessage,
         failedMessages,
         startNewChat,
