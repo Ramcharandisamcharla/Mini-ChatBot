@@ -85,11 +85,22 @@ function wait(ms) {
 }
 
 // Retry wrapper with exponential backoff
-async function fetchWithRetry(url, options = {}, timeout = DEFAULT_TIMEOUT, retries = MAX_RETRIES) {
+async function fetchWithRetry(url, options = {}, timeout = DEFAULT_TIMEOUT, retries = MAX_RETRIES, onRetry = null) {
   let lastError;
 
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
+      // Notify about retry attempt
+      if (attempt > 0 && onRetry) {
+        const delay = INITIAL_RETRY_DELAY * Math.pow(2, attempt - 1);
+        onRetry({
+          attempt,
+          maxAttempts: retries + 1,
+          delay,
+          message: attempt === 1 ? 'Server is waking up...' : `Retrying connection (${attempt}/${retries + 1})...`
+        });
+      }
+      
       return await fetchWithTimeout(url, options, timeout);
     } catch (error) {
       lastError = error;
@@ -110,20 +121,30 @@ async function fetchWithRetry(url, options = {}, timeout = DEFAULT_TIMEOUT, retr
   throw lastError;
 }
 
-export async function createChat() {
+export async function createChat(onRetry) {
   try {
-    const res = await fetchWithRetry(`${API_URL}/api/chats`, { 
-      method: "POST" 
-    });
+    const res = await fetchWithRetry(
+      `${API_URL}/api/chats`, 
+      { method: "POST" },
+      DEFAULT_TIMEOUT,
+      MAX_RETRIES,
+      onRetry
+    );
     return handleResponse(res);
   } catch (error) {
     handleNetworkError(error);
   }
 }
 
-export async function getChats() {
+export async function getChats(onRetry) {
   try {
-    const res = await fetchWithRetry(`${API_URL}/api/chats`);
+    const res = await fetchWithRetry(
+      `${API_URL}/api/chats`,
+      {},
+      DEFAULT_TIMEOUT,
+      MAX_RETRIES,
+      onRetry
+    );
     return handleResponse(res);
   } catch (error) {
     handleNetworkError(error);
@@ -139,7 +160,7 @@ export async function getMessages(chatId) {
   }
 }
 
-export async function sendMessage(chatId, content) {
+export async function sendMessage(chatId, content, onRetry) {
   try {
     const res = await fetchWithRetry(
       `${API_URL}/api/chats/${chatId}/messages`,
@@ -148,7 +169,9 @@ export async function sendMessage(chatId, content) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content }),
       },
-      45000 // Longer timeout for AI response
+      45000, // Longer timeout for AI response
+      MAX_RETRIES,
+      onRetry
     );
     return handleResponse(res);
   } catch (error) {
