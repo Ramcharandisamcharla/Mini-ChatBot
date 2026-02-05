@@ -31,6 +31,7 @@ export function ChatProvider({ children }) {
     try {
       await fetch(`${API_URL}/health`);
     } catch {
+      setBackendStatus('waking');
       setError("Waking up server, please wait...");
     }
   }
@@ -82,9 +83,13 @@ export function ChatProvider({ children }) {
         }
       } catch (err) {
         if (isCancelled) return;
-        setBackendStatus('offline');
+        // Only set to offline if we're not already in waking state
+        setBackendStatus((prevStatus) => prevStatus === 'waking' ? 'waking' : 'offline');
         setRetryStatus(null);
-        setError(err.error || "Unable to connect to server. Please check your internet connection.");
+        // Keep the waking message if backend is waking up
+        if (backendStatus !== 'waking') {
+          setError(err.error || "Unable to connect to server. Please check your internet connection.");
+        }
       } finally {
         if (!isCancelled) {
           setChatsLoading(false);
