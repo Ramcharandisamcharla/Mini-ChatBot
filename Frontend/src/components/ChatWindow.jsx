@@ -38,12 +38,12 @@ export default function ChatWindow() {
   }
 
   return (
-    <div className="flex-1 flex flex-col bg-white dark:bg-[#212121] overflow-hidden md:min-h-0">
+    <div className="flex-1 flex flex-col bg-white dark:bg-[#212121] overflow-hidden h-full">
       {/* Messages - Responsive container */}
       <div 
         ref={messagesContainerRef}
         onScroll={handleScroll}
-        className="absolute md:relative top-14 md:top-0 left-0 right-0 bottom-0 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 pb-32 md:pb-0 md:flex-1 md:min-h-0 overscroll-none"
+        className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 pb-2 md:pb-0"
         style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}
       >
         <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-4 md:py-8">

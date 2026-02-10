@@ -272,18 +272,39 @@ export function ChatProvider({ children }) {
       const messageIndex = messages.findIndex(msg => msg.id === messageId);
       if (messageIndex === -1) return;
 
-      // Remove the old user message and all subsequent messages
+      // Remove the old user message and all subsequent messages,
+      // but immediately add the new user message to prevent blank screen
       const updatedMessages = messages.slice(0, messageIndex);
-      setMessages(updatedMessages);
+      const tempUserId = `temp-user-${Date.now()}`;
+      const tempUserMessage = {
+        id: tempUserId,
+        role: 'user',
+        content: newContent,
+        createdAt: new Date().toISOString(),
+      };
+      setMessages([...updatedMessages, tempUserMessage]);
 
       // Send the edited message as a new message
       const res = await sendMessage(currentChat.id, newContent);
 
+      // Replace temp message with real messages
       setMessages((prev) => [
-        ...prev,
+        ...prev.filter(msg => msg.id !== tempUserId),
         res.userMessage,
         res.assistantMessage,
       ]);
+
+      // Update chat title if it was changed
+      if (res.updatedTitle && res.updatedTitle !== currentChat.title) {
+        setCurrentChat((prev) => ({ ...prev, title: res.updatedTitle }));
+        setChats((prev) =>
+          prev.map((chat) =>
+            chat.id === currentChat.id
+              ? { ...chat, title: res.updatedTitle }
+              : chat
+          )
+        );
+      }
 
       // Clear editing state
       setEditingMessage(null);
